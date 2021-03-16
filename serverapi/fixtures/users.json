@@ -1,6 +1,6 @@
 [
     {
-        "model": "serverapi.birdie",
+        "model": "auth.user",
         "pk": 1,
         "fields": {
             "password": "pbkdf2_sha256$216000$qMRH8szID7Z8$Vljya2V3XfruOHuvx1hGz9ZyKg4bxbw7rc2WO0gTR7I=",
@@ -10,7 +10,7 @@
         }
     },
     {
-        "model": "serverapi.birdie",
+        "model": "auth.user",
         "pk": 2,
         "fields": {
             "password": "pbkdf2_sha256$216000$qMRH8szID7Z8$Vljya2V3XfruOHuvx1hGz9ZyKg4bxbw7rc2WO0gTR7I=",

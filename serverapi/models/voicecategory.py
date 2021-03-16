@@ -1,4 +1,4 @@
-""" Category model for BirdieVoices """
+""" VoiceCategory model for BirdieVoices """
 
 from django.db import models
 
