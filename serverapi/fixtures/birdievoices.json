@@ -1,0 +1,26 @@
+[
+    {
+        "model": "serverapi.birdievoice",
+        "pk": 1,
+        "fields": {
+            "voice_id": 3,
+            "birdie_id": 2 
+        }
+    },
+    {
+        "model": "serverapi.birdievoice",
+        "pk": 1,
+        "fields": {
+            "voice_id": 1,
+            "birdie_id": 1
+        }
+    },
+    {
+        "model": "serverapi.birdievoice",
+        "pk": 1,
+        "fields": {
+            "voice_id": 2,
+            "birdie_id": 2
+        }
+    }
+]
