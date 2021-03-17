@@ -35,11 +35,11 @@ class Comments(ViewSet):
         voice = Voice.objects.get(pk = request.data['voice_id'])
 
         comment = Comment()
-        comment.comment_title = title
+        comment.comment_title = request.data['comment_title']
         comment.author = user
         comment.created_on = datetime.now()
         comment.voice = voice
-        comment.comment_detail = text
+        comment.comment_detail = request.data['comment_detail']
 
         try:
             comment.save()
