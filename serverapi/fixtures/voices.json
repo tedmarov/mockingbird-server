@@ -15,24 +15,24 @@
         "model": "serverapi.voice",
         "pk": 2,
         "fields": {
-        "voice_name": "Enter the Void",
-        "date_created": "2021-01-01",
-        "creator_id": 1,
-        "category_id": 3,
-        "voice_text": "Wait a second, wait a, wait a second. What are you doing for New Years? Are you going to the Tyler's party? 'Cos I don't have a date, and if you don't have a date, we always said that if neither one of us had a date, we could be together for New Years. And we... could... you know.... why don't....",
-        "last_edit": "2021-01-03"
+            "voice_name": "Enter the Void",
+            "date_created": "2021-01-01",
+            "creator_id": 1,
+            "category_id": 3,
+            "voice_text": "Wait a second, wait a, wait a second. What are you doing for New Years? Are you going to the Tyler's party? 'Cos I don't have a date, and if you don't have a date, we always said that if neither one of us had a date, we could be together for New Years. And we... could... you know.... why don't....",
+            "last_edit": "2021-01-03"
         }
     },
     {
         "model": "serverapi.voice",
         "pk": 3,
         "fields": {
-        "voice_name": "Lollipop",
-        "date_created": "2021-02-03",
-        "creator": 2,
-        "category": 2,
-        "voice_text": "Lollipop lollipop. Oh lolli lolli lolli, lollipop.",
-        "last_edit": "2021-02-03"
+            "voice_name": "Lollipop",
+            "date_created": "2021-02-03",
+            "creator": 2,
+            "category": 2,
+            "voice_text": "Lollipop lollipop. Oh lolli lolli lolli, lollipop.",
+            "last_edit": "2021-02-03"
         }
     }
 ]
