@@ -21,12 +21,13 @@ from django.utils import translation
 from rest_framework import routers
 from django.conf import settings
 from django.conf.urls.static import static
-from serverapi.views import Comments, Voices, Birdies, login_user, register_user
+from serverapi.views import Comments, Voices, Birdies, Categories, login_user, register_user
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'comments', Comments, 'comment')
 router.register(r'voices', Voices, 'voice')
 router.register(r'birdies', Birdies, 'birdie')
+router.register(r'categories', Categories, 'category')
 
 urlpatterns = [
     path('', include(router.urls)),

@@ -26,7 +26,7 @@ class BirdieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Birdie
-        fields = ('id', 'bio', 'user')
+        fields = ('bio', 'user')
         depth = 1
 
 class Birdies(ViewSet):
