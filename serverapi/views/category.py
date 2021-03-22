@@ -7,24 +7,24 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-from serverapi.models import Comment, Birdie, Voice
+from serverapi.models import Category, Birdie, Voice
 from datetime import datetime
 
-class Comments(ViewSet):
+class Categories(ViewSet):
 
     def list(self, request):
 
-        comments = Comment.objects.all()
+        categories = Category.objects.all()
 
-        serializer = CommentSerializer(comments, many=True, context={'request', request})
+        serializer = CategorySerializer(categories, many=True, context={'request', request})
 
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
 
         try:
-            comment = Comment.objects.get(pk=pk)
-            serializer = CommentSerializer(comment, context={'request', request})
+            category = Category.objects.get(pk=pk)
+            serializer = CategorySerializer(category, context={'request', request})
             return Response(serializer.data)
         except Exception as ex:
             return HttpResponseServerError(ex)
@@ -34,16 +34,12 @@ class Comments(ViewSet):
         user = Token.objects.get(user=request.auth.user)
         voice = Voice.objects.get(pk = request.data['voice_id'])
 
-        comment = Comment()
-        comment.comment_title = request.data['comment_title']
-        comment.author = user
-        comment.created_on = datetime.now()
-        comment.voice = voice
-        comment.comment_detail = request.data['comment_detail']
+        category = Category()
+        category.category_label = request.data['category_title']
 
         try:
-            comment.save()
-            serializer = CommentSerializer(comment, context={'request', request})
+            category.save()
+            serializer = CategorySerializer(category, context={'request', request})
             return Response(serializer.data)
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
@@ -51,35 +47,31 @@ class Comments(ViewSet):
     def update(self, request, pk=None):
 
         user = Token.objects.get(user=request.auth.user)
-        post = Voice.objects.get(pk=request.data['voice_id'])
 
-        comment = Comment.objects.get(pk=pk)
-        comment.author = user
-        comment.post = post
-        comment.content = request.data['content']
-        comment.created_on = request.data['created_on']
+        category = Category.objects.get(pk=pk)
+        category.category_label = request.data['category_title']
 
-        comment.save()
+        category.save()
 
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
     def destroy(self, request, pk=None):
         try:
-            comment = Comment.objects.get(pk=pk)
-            comment.delete()
+            category = Category.objects.get(pk=pk)
+            category.delete()
 
             return Response({}, status=status.HTTP_204_NO_CONTENT)
 
-        except Comment.DoesNotExist as ex:
+        except Category.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-class CommentSerializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
 	class Meta:
-        model = Comment
+		model = Category
 
-        fields = ['comment_title', 'author', 'created_on', 'voice', 'comment_detail', 'last_edit']
-        depth = 2
+		fields = ['label']
+		depth = 1
 
