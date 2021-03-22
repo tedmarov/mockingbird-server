@@ -1,20 +1,20 @@
 [
 {
-        "model": "serverapi.voicecategory",
+        "model": "serverapi.category",
         "pk": 1,
         "fields": {
             "label": "Poem"
         }
 },
 {
-        "model": "serverapi.voicecategory",
+        "model": "serverapi.category",
         "pk": 2,
         "fields": {
             "label": "Song"
         }
 },
 {
-        "model": "serverapi.voicecategory",
+        "model": "serverapi.category",
         "pk": 3,
         "fields": {
             "label": "Scene"

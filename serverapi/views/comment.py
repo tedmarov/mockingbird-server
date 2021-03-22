@@ -77,7 +77,7 @@ class Comments(ViewSet):
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class CommentSerializer(serializers.ModelSerializer):
-	class Meta:
+    class Meta:
         model = Comment
 
         fields = ['comment_title', 'author', 'created_on', 'voice', 'comment_detail', 'last_edit']

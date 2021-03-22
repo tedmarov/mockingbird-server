@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
-from serverapi.models import Voice, Birdie, VoiceCategory
+from serverapi.models import Voice, Birdie, Category
 from django.contrib.auth.models import User
 
 
@@ -21,16 +21,16 @@ class BirdieSerializer(serializers.ModelSerializer):
         model = Birdie
         fields = ('id', 'user', 'bio')
 
-class VoiceCategorySerializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
     """ JSON Serializer for Voice type """
     class Meta:
-        model = VoiceCategory
+        model = Category
         fields = ('id', 'label')
 
 class VoiceSerializer(serializers.ModelSerializer):
     """ JSON Serializer for Voices """
     creator = BirdieSerializer(many=False)
-    voice_category = VoiceCategorySerializer
+    voice_category = CategorySerializer
 
     class Meta:
         model = Voice
@@ -47,7 +47,7 @@ class Voices(ViewSet):
         voice.voice_name = request.data['voice_name']
         voice.date_created = request.data['date_created']
         voice.creator = Birdie.objects.get(user=request.auth.user)
-        voice.category = VoiceCategory.objects.get(pk=request.data['category_id'])
+        voice.category = Category.objects.get(pk=request.data['category_id'])
         voice.voice_text = request.data['voice_text']
         voice.last_edit = request.data['last_edit']
 
@@ -91,7 +91,7 @@ class Voices(ViewSet):
         voice.voice_name = request.data['voice_name']
         voice.date_created = request.data['date_created']
         voice.creator = Birdie.objects.get(user=request.auth.user)
-        voice.category = VoiceCategory.objects.get(pk=request.data['category_id'])
+        voice.category = Category.objects.get(pk=request.data['category_id'])
         voice.voice_text = request.data['voice_text']
         voice.last_edit = request.data['last_edit']
 
