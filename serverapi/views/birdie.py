@@ -10,18 +10,24 @@ from rest_framework import serializers
 from django.core.files.base import ContentFile
 from serverapi.models import Voice, Birdie, VoiceCategory
 
+# Don't return ID, security purposes
+# Add in 'User' field in Birdie Serializer
+# Create var in BSerializer, line 24, 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'is_staff', 'username', 'email')
+        fields = ('first_name', 'last_name', 'is_staff', 'username', 'email')
 
 class BirdieSerializer(serializers.ModelSerializer):
-    # user = UserSerializer(many=False)
+    # Whenever Birdie retrieved; USerializer will be invoked to grab USerializer fields
+    # In order to get user info, just fetch the Birdie
+    user = UserSerializer(many=False)
 
     class Meta:
         model = Birdie
-        fields = ('id', 'bio', 'user_id')
-        # depth = 1
+        fields = ('id', 'bio', 'user')
+        depth = 1
 
 class Birdies(ViewSet):
     """ comments for dreamcatcher """
