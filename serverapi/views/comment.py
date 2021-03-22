@@ -51,11 +51,11 @@ class Comments(ViewSet):
     def update(self, request, pk=None):
 
         user = Token.objects.get(user=request.auth.user)
-        post = Voice.objects.get(pk=request.data['voice_id'])
+        voice = Voice.objects.get(pk=request.data['voice_id'])
 
         comment = Comment.objects.get(pk=pk)
         comment.author = user
-        comment.post = post
+        comment.voice = voice
         comment.content = request.data['content']
         comment.created_on = request.data['created_on']
 
@@ -82,4 +82,3 @@ class CommentSerializer(serializers.ModelSerializer):
 
         fields = ['comment_title', 'author', 'created_on', 'voice', 'comment_detail', 'last_edit']
         depth = 2
-

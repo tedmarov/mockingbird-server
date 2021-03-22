@@ -8,7 +8,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from django.core.files.base import ContentFile
-from serverapi.models import Voice, Birdie, VoiceCategory
+from serverapi.models import Voice, Birdie, Category
 
 # Don't return ID, security purposes
 # Add in 'User' field in Birdie Serializer
@@ -30,7 +30,7 @@ class BirdieSerializer(serializers.ModelSerializer):
         depth = 1
 
 class Birdies(ViewSet):
-    """ comments for dreamcatcher """
+    """ comments for voices """
 
     def retrieve(self, request, pk=None):
         """ get a single Birdie """
