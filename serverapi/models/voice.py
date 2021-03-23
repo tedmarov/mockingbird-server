@@ -10,5 +10,5 @@ class Voice(models.Model):
     creator = models.ForeignKey("Birdie", on_delete=models.CASCADE)
     category = models.ForeignKey("Category", on_delete=models.CASCADE)
     voice_text = models.CharField(max_length=3000)
-    last_edit = models.DateField(auto_now_add=True, auto_now=False)
+    voice_edited = models.DateField(auto_now_add=True, auto_now=False)
     
