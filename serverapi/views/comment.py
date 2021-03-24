@@ -51,11 +51,11 @@ class Comments(ViewSet):
     def update(self, request, pk=None):
 
         user = Token.objects.get(user=request.auth.user)
-        post = Voice.objects.get(pk=request.data['voice_id'])
+        voice = Voice.objects.get(pk=request.data['voice_id'])
 
         comment = Comment.objects.get(pk=pk)
         comment.author = user
-        comment.post = post
+        comment.voice = voice
         comment.content = request.data['content']
         comment.created_on = request.data['created_on']
 
@@ -77,9 +77,8 @@ class Comments(ViewSet):
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class CommentSerializer(serializers.ModelSerializer):
-	class Meta:
+    class Meta:
         model = Comment
 
         fields = ['comment_title', 'author', 'created_on', 'voice', 'comment_detail', 'last_edit']
         depth = 2
-
