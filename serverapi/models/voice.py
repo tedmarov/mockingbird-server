@@ -11,4 +11,11 @@ class Voice(models.Model):
     category = models.ForeignKey("Category", on_delete=models.CASCADE)
     voice_text = models.CharField(max_length=3000)
     voice_edited = models.DateField(auto_now_add=True, auto_now=False)
-    
+
+    @property
+    def privacy(self):
+            return self.__privacy
+
+    @privacy.setter
+    def privacy(self, value):
+            self.__privacy = value
