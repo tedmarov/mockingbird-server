@@ -12,7 +12,7 @@ from serverapi.models import Voice, Birdie, Category
 
 # Don't return ID, security purposes
 # Add in 'User' field in Birdie Serializer
-# Create var in BSerializer, line 24, 
+# Create var in Serializer, line 24
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
