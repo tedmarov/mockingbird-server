@@ -7,7 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-from serverapi.models import Text, Birdie
+from serverapi.models import Text
 from datetime import datetime
 
 class Texts(ViewSet):
@@ -32,7 +32,6 @@ class Texts(ViewSet):
     def create(self, request):
 
         user = Token.objects.get(user=request.auth.user)
-        voice = Voice.objects.get(pk = request.data['voice_id'])
 
         text = Text()
         text.text_title = request.data['text_title']
@@ -51,6 +50,7 @@ class Texts(ViewSet):
     def update(self, request, pk=None):
 
         user = Token.objects.get(user=request.auth.user)
+        text = Text.objects.get(pk = request.data['text_id'])
 
         text = Text()
         text.text_title = request.data['text_title']

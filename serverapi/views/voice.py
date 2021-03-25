@@ -7,8 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
-from serverapi.models import Voice, Birdie, Category, BirdieVoice
-
+from serverapi.models import Voice, Birdie, Text, Category, BirdieText
 
 class UserSerializer(serializers.ModelSerializer):
     """ JSON serializer for user """
@@ -29,15 +28,26 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ('id', 'label')
 
+class TextSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Text
+        fields = ('text_title', 'submitter', 'edited_on', 'text_body', 'text_source')
+
 class VoiceSerializer(serializers.ModelSerializer):
     """ JSON Serializer for Voices """
-    creator = BirdieSerializer(many=False)
-    voice_category = CategorySerializer
-
+    category = CategorySerializer(serializers.ModelSerializer)
+    text = TextSerializer(serializers.ModelSerializer)
     class Meta:
         model = Voice
-        fields = ('id', 'voice_name', 'date_created', 'creator', 'category', 'voice_text', 'last_edit', 'privacy')
-        depth = 1
+        fields = ('id', 'voice_name', 'date_created', 'creator', 'category', 'text', 'voice_edited', 'privacy')
+        depth = 2
+
+
+class BirdieTextSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BirdieText
+        fields = ('bio', 'user', 'text_title', 'submitter', 'edited_on', 'text_body', 'text_source')
+        depth = 2
 
 class Voices(ViewSet):
     """ comments for Voicecatcher """
@@ -63,6 +73,61 @@ class Voices(ViewSet):
             return Response({'reason': ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
 # Create Custom Action to add to MtoM table?
+    @action(methods=['post', 'delete'], detail=True)
+    def modifyBirdieText(self, request, pk=None):
+        """Managing multiple birdies having multiple texts"""
+
+        # A birdie just recorded the voice and wants to post
+        if request.method == "POST":
+            # The pk would depend
+            text = Text.objects.get(pk=pk)
+
+            # Django uses Auth header to figure out
+            # the birdie that posted
+            birdie = Birdie.objects.get(user=request.auth.user)
+
+            try:
+                # Was this recording already made?
+                recording = BirdieText.objects.get(
+                    text=text, birdie=birdie)
+                return Response(
+                    {'message': 'Birdie already posted this voice recording.'},
+                    status=status.HTTP_422_UNPROCESSABLE_ENTITY
+                )
+            except BirdieText.DoesNotExist:
+                # The BirdieText instance does not exist
+                recording = BirdieText()
+                recording.text = text
+                recording.birdie = birdie
+                recording.save()
+
+                return Response({}, status=status.HTTP_201_CREATED)
+            
+        # Voice is to be deleted
+        elif request.method == "DELETE":
+            # Handle the case if the birdie specifies a non-existing object
+            try:
+                text = Text.objects.get(pk=pk)
+            except Text.DoesNotExist:
+                return Response(
+                    {'message': 'Text no longer exists in the system.'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            # Get the auth user
+            birdie = Birdie.objects.get(user=request.auth.user)
+
+            try:
+                # Try to delete the BirdieText
+                recording = BirdieText.objects.get(
+                    text=text, birdie=birde)
+                revording.delete()
+                return Response(None, status=status.HTTP_204_NO_CONTENT)
+            
+            except BirdieText.DoesNotExist:
+                return Response(
+                    {'message': 'Birdie already deleted this voice recording'}
+                )
 
     def retrieve(self, request, pk=None):
         """ get a single Voice """

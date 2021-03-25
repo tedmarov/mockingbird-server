@@ -1,6 +1,6 @@
 [
     {
-        "model": "serverapi.birdietexts",
+        "model": "serverapi.birdietext",
         "pk": 1,
         "fields": {
             "birdie_id": 2, 
@@ -8,16 +8,16 @@
         }
     },
     {
-        "model": "serverapi.birdietexts",
-        "pk": 1,
+        "model": "serverapi.birdietext",
+        "pk": 2,
         "fields": {
             "birdie_id": 1,
             "text_id": 2
         }
     },
     {
-        "model": "serverapi.birdietexts",
-        "pk": 1,
+        "model": "serverapi.birdietext",
+        "pk": 3,
         "fields": {
             "birdie_id": 2,
             "text_id": 3
