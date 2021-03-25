@@ -6,9 +6,7 @@ from rest_framework import serializers
 from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
-from serverapi.models import Category, Birdie, Voice
-from datetime import datetime
+from serverapi.models import Category
 
 class Categories(ViewSet):
 
@@ -31,11 +29,8 @@ class Categories(ViewSet):
 
     def create(self, request):
 
-        user = Token.objects.get(user=request.auth.user)
-        voice = Voice.objects.get(pk = request.data['voice_id'])
-
         category = Category()
-        category.category_label = request.data['category_title']
+        category.category_label = request.data['category_label']
 
         try:
             category.save()
@@ -46,10 +41,8 @@ class Categories(ViewSet):
 
     def update(self, request, pk=None):
 
-        user = Token.objects.get(user=request.auth.user)
-
         category = Category.objects.get(pk=pk)
-        category.category_label = request.data['category_title']
+        category.category_label = request.data['category_label']
 
         category.save()
 
@@ -71,7 +64,4 @@ class Categories(ViewSet):
 class CategorySerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Category
-
-		fields = ['label']
-		depth = 1
-
+		fields = ['category_label']

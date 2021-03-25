@@ -26,7 +26,7 @@ class CategorySerializer(serializers.ModelSerializer):
     """ JSON Serializer for Voice type """
     class Meta:
         model = Category
-        fields = ('id', 'label')
+        fields = ('id', 'category_label')
 
 class TextSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,7 +39,7 @@ class VoiceSerializer(serializers.ModelSerializer):
     text = TextSerializer(serializers.ModelSerializer)
     class Meta:
         model = Voice
-        fields = ('id', 'voice_name', 'date_created', 'creator', 'category', 'text', 'voice_edited', 'privacy')
+        fields = ('id', 'voice_name', 'date_created', 'creator', 'category', 'voice_recording', 'text', 'voice_edited', 'privacy')
         depth = 2
 
 
@@ -50,7 +50,18 @@ class BirdieTextSerializer(serializers.ModelSerializer):
         depth = 2
 
 class Voices(ViewSet):
-    """ comments for Voicecatcher """
+
+    def list(self, request):
+        "GET all Voices"
+        voices = Voice.objects.all()
+
+        user_id = self.request.query_params.get('user_id', None)
+        if user_id is not None:
+            voices = voices.filter(user_id=user_id)
+        
+        serializer = VoiceSerializer(voices, many=True, context={'request': request})
+
+        return Response(serializer.data)
 
     def create(self, request):
         """ POST operations for adding a Voice """
@@ -59,6 +70,7 @@ class Voices(ViewSet):
         voice.voice_name = request.data['voice_name']
         voice.date_created = request.data['date_created']
         voice.creator = Birdie.objects.get(user=request.auth.user)
+        voice.recording = request.data['voice_recording']
         voice.category = Category.objects.get(pk=request.data['category_id'])
         voice.voice_text = request.data['voice_text']
         voice.last_edit = request.data['last_edit']
@@ -120,8 +132,8 @@ class Voices(ViewSet):
             try:
                 # Try to delete the BirdieText
                 recording = BirdieText.objects.get(
-                    text=text, birdie=birde)
-                revording.delete()
+                    text=text, birdie=birdie)
+                recording.delete()
                 return Response(None, status=status.HTTP_204_NO_CONTENT)
             
             except BirdieText.DoesNotExist:
@@ -148,6 +160,7 @@ class Voices(ViewSet):
         voice.voice_name = request.data['voice_name']
         voice.date_created = request.data['date_created']
         voice.creator = Birdie.objects.get(user=request.auth.user)
+        voice.voice_recording = request.data['voice_recording']
         voice.category = Category.objects.get(pk=request.data['category_id'])
         voice.voice_text = request.data['voice_text']
         voice.last_edit = request.data['last_edit']
@@ -172,23 +185,3 @@ class Voices(ViewSet):
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-# Create Custom Action to delete from MtoM table?
-
-    def list(self, request):
-        """Handle GET requests to voices resource
-        
-        Returns:
-            Response -- JSON serialized list of voices
-        """
-        birdie = Birdie.objects.get(birdie=request.auth.user)
-        voices = Voice.objects.all()
-
-        # Set the `privacy` property on every voice
-        for voice in voices:
-            voice.privacy = None
-
-            try:
-                BirdieVoice.objects.get(voice=voice, birdie=birdie)
-                voice.privacy = True
-            except BirdieVoice.DoesNotExist:
-                voice.privacy = False
