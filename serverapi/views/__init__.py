@@ -1,4 +1,4 @@
-from .birdie import Birdies
+from .birdie import Birdies, BirdieTexts
 from .comment import Comments
 from .voice import Voices
 from .category import Categories

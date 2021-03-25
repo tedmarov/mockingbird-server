@@ -62,6 +62,8 @@ class Voices(ViewSet):
         except ValidationError as ex:
             return Response({'reason': ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
+# Create Custom Action to add to MtoM table?
+
     def retrieve(self, request, pk=None):
         """ get a single Voice """
 
@@ -104,6 +106,8 @@ class Voices(ViewSet):
 
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# Create Custom Action to delete from MtoM table?
 
     def list(self, request):
         """Handle GET requests to voices resource
