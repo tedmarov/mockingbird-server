@@ -70,7 +70,7 @@ class Voices(ViewSet):
         voice.voice_name = request.data['voice_name']
         voice.date_created = request.data['date_created']
         voice.creator = Birdie.objects.get(user=request.auth.user)
-        voice.recording = request.data['voice_recording']
+        voice.voice_recording = request.data['voice_recording']
         voice.category = Category.objects.get(pk=request.data['category_id'])
         voice.voice_text = request.data['voice_text']
         voice.last_edit = request.data['last_edit']

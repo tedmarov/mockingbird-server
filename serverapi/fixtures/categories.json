@@ -19,5 +19,12 @@
         "fields": {
             "category_label": "Scene"
         }
+},
+{
+        "model": "serverapi.category",
+        "pk": 4,
+        "fields": {
+            "category_label": "Custom"
+        }
 }
 ]
