@@ -1,0 +1,35 @@
+[
+    {
+        "model": "serverapi.text",
+        "pk": 1,
+        "fields": {
+            "text_title": "Enter the Void",
+            "submitter_id": 2,
+            "edited_on": "2021-03-15",
+            "text_body": "Let go your earthly tether. Enter the void. Empty, and become wind.",
+            "text_source": "https://avatar.fandom.com/wiki/Enter_the_Void"
+        }
+    },
+    {
+        "model": "serverapi.text",
+        "pk": 2,
+        "fields": {
+            "text_title": "When Harry Met Sally",
+            "submitter_id": 1,
+            "edited_on": "2021-01-03",
+            "text_body": "Wait a second, wait a, wait a second. What are you doing for New Years? Are you going to the Tyler's party? 'Cos I don't have a date, and if you don't have a date, we always said that if neither one of us had a date, we could be together for New Years",
+            "text_source": "https://www.moviequotedb.com/movies/when-harry-met-sally/quote_26050.html"
+        }
+    },
+    {
+        "model": "serverapi.text",
+        "pk": 3,
+        "fields": {
+            "text_title": "Lollipop",
+            "submitter_id": 1,
+            "edited_on": "2021-02-03",
+            "text_body": "Lollipop lollipop. Oh lolli lolli lolli, lollipop.",
+            "text_source": "https://www.azlyrics.com/lyrics/chordettes/lollipop.html"
+        }
+    }
+]

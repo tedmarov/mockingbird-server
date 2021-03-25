@@ -7,20 +7,22 @@
             "date_created": "2021-03-14",
             "creator_id": 2,
             "category_id": 1,
-            "voice_text": "Let go your earthly tether. Enter the void. Empty, and become wind.",
-            "voice_edited": "2021-03-15"
+            "text_id": 1,
+            "voice_edited": "2021-03-15",
+            "privacy": false
         }
     },
     {
         "model": "serverapi.voice",
         "pk": 2,
         "fields": {
-            "voice_name": "Enter the Void",
+            "voice_name": "When Harry Met Sally",
             "date_created": "2021-01-01",
             "creator_id": 1,
             "category_id": 3,
-            "voice_text": "Wait a second, wait a, wait a second. What are you doing for New Years? Are you going to the Tyler's party? 'Cos I don't have a date, and if you don't have a date, we always said that if neither one of us had a date, we could be together for New Years. And we... could... you know.... why don't....",
-            "voice_edited": "2021-01-03"
+            "text_id": 2,
+            "voice_edited": "2021-01-03",
+            "privacy": true
         }
     },
     {
@@ -31,8 +33,9 @@
             "date_created": "2021-02-03",
             "creator": 2,
             "category": 2,
-            "voice_text": "Lollipop lollipop. Oh lolli lolli lolli, lollipop.",
-            "voice_edited": "2021-02-03"
+            "text_id": 3,
+            "voice_edited": "2021-02-03",
+            "privacy": true
         }
     }
 ]

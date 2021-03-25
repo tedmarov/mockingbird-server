@@ -62,6 +62,8 @@ class Voices(ViewSet):
         except ValidationError as ex:
             return Response({'reason': ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
+# Create Custom Action to add to MtoM table?
+
     def retrieve(self, request, pk=None):
         """ get a single Voice """
 
@@ -105,6 +107,8 @@ class Voices(ViewSet):
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+# Create Custom Action to delete from MtoM table?
+
     def list(self, request):
         """Handle GET requests to voices resource
         
@@ -123,75 +127,3 @@ class Voices(ViewSet):
                 voice.privacy = True
             except BirdieVoice.DoesNotExist:
                 voice.privacy = False
-
-        # Support filtering voices by category
-        category = self.request.query_params.get('categoryId', None)
-        if category is not None:
-            voices = voices.filter(category__id=type)
-
-        serializer = VoiceSerializer(
-            voices, many=True, context={'request': request})
-        return Response(serializer.data)
-
-    @action(methods=['post', 'delete'], detail=True)
-    def voice_privacy(self, request, pk=None):
-        """Managing voices being private or public"""
-
-        # A Birdie wants to set the voice privacy
-        if request.method == "POST":
-            # The pk would be `2` if the URL above was requested
-            voice = Voice.objects.get(pk=pk)
-
-            # Django uses the `Authorization` header to determine
-            # which birdie is making the request for privacy
-            birdie = Birdie.objects.get(user=request.auth.user)
-
-            try:
-                # Determine if the voice is already private
-                privacy_check = BirdieVoice.objects.get(
-                    voice=voice, birdie=birdie)
-                return Response(
-                    {'message': 'Birdie already signed up this Voice.'},
-                    status=status.HTTP_422_UNPROCESSABLE_ENTITY
-                )
-            except BirdieVoice.DoesNotExist:
-                # The user is not signed up.
-                privacy_check = BirdieVoice()
-                privacy_check.voice = voice
-                privacy_check.birdie = birdie
-                privacy_check.save()
-
-                return Response({}, status=status.HTTP_201_CREATED)
-
-        # User wants to make a voice public
-        elif request.method == "DELETE":
-            # Handle the case if the client specifies a game
-            # that doesn't exist
-            try:
-                voice = Voice.objects.get(pk=pk)
-            except Voice.DoesNotExist:
-                return Response(
-                    {'message': 'Voice does not exist.'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
-            # Get the authenticated user
-            birdie = Birdie.objects.get(user=request.auth.user)
-
-            try:
-                # Try to delete the signup
-                privacy_check = BirdieVoice.objects.get(
-                    voice=voice, birdie=birdie)
-                privacy_check.delete()
-                return Response(None, status=status.HTTP_204_NO_CONTENT)
-
-            except BirdieVoice.DoesNotExist:
-                return Response(
-                    {'message': 'Not currently registered for Voice.'},
-                    status=status.HTTP_404_NOT_FOUND
-                )
-
-        # If the client performs a request with a method of
-        # anything other than POST or DELETE, tell client that
-        # the method is not supported
-        return Response({}, status=status.HTTP_405_METHOD_NOT_ALLOWED)

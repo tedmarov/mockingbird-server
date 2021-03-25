@@ -8,7 +8,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from django.core.files.base import ContentFile
-from serverapi.models import Voice, Birdie, Category
+from serverapi.models import Voice, Birdie, Category, Text, BirdieText  
 
 # Don't return ID, security purposes
 # Add in 'User' field in Birdie Serializer
@@ -29,11 +29,19 @@ class BirdieSerializer(serializers.ModelSerializer):
         fields = ('bio', 'user')
         depth = 1
 
-class Birdies(ViewSet):
-    """ comments for voices """
+class TextSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Text
+        fields = ('text_title', 'submitter', 'edited_on', 'text_body', 'text_source')
 
+class BirdieTextSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BirdieText
+        fields = ('bio', 'user', 'text_title', 'submitter', 'edited_on', 'text_body', 'text_source')
+
+class Birdies(ViewSet):
+    """ get a single Birdie """
     def retrieve(self, request, pk=None):
-        """ get a single Birdie """
 
         try:
             birdie = Birdie.objects.get(pk=pk)
