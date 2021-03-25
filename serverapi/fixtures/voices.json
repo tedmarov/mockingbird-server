@@ -5,9 +5,9 @@
         "fields": {
             "voice_name": "Enter the Void",
             "date_created": "2021-03-14",
-            "creator_id": 2,
-            "category_id": 1,
-            "text_id": 1,
+            "creator": 2,
+            "category": 1,
+            "text": 1,
             "voice_edited": "2021-03-15",
             "privacy": false
         }
@@ -18,9 +18,9 @@
         "fields": {
             "voice_name": "When Harry Met Sally",
             "date_created": "2021-01-01",
-            "creator_id": 1,
-            "category_id": 3,
-            "text_id": 2,
+            "creator": 1,
+            "category": 3,
+            "text": 2,
             "voice_edited": "2021-01-03",
             "privacy": true
         }
@@ -33,7 +33,7 @@
             "date_created": "2021-02-03",
             "creator": 2,
             "category": 2,
-            "text_id": 3,
+            "text": 3,
             "voice_edited": "2021-02-03",
             "privacy": true
         }
