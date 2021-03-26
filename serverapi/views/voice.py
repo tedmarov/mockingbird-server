@@ -32,7 +32,7 @@ class VoiceSerializer(serializers.ModelSerializer):
     text = TextSerializer(serializers.ModelSerializer)
     class Meta:
         model = Voice
-        fields = ('id', 'voice_name', 'date_created', 'creator', 'category', 'voice_recording', 'text', 'voice_edited', 'voice_privacy')
+        fields = ('id', 'voice_name', 'date_created', 'creator', 'voice_recording', 'category', 'text', 'voice_edited', 'voice_privacy')
         depth = 2
 
 

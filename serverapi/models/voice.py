@@ -13,5 +13,5 @@ class Voice(models.Model):
     category = models.ForeignKey("Category", on_delete=models.CASCADE)
     text = models.ForeignKey("Text", on_delete=models.CASCADE)
     voice_edited = models.BooleanField(default=False)
-    voice_privacy = models.BooleanField(default=False)
+    voice_privacy = models.BooleanField()
 
