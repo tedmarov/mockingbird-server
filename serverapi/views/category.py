@@ -7,11 +7,6 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from serverapi.models import Category
 
-class CategorySerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Category
-		fields = ['id', 'category_label']
-
 class Categories(ViewSet):
 
     def list(self, request):
@@ -66,3 +61,9 @@ class Categories(ViewSet):
 
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class CategorySerializer(serializers.ModelSerializer):
+    
+	class Meta:
+		model = Category
+		fields = ['id', 'category_label']

@@ -5,12 +5,12 @@
         "fields": {
             "voice_name": "Legend of Korra",
             "date_created": "2021-03-14",
-            "creator_id": "9ba45f09651c5b0c404f37a2d2572c026c146690",
             "voice_recording": "Ipsum lorem",
-            "category_id": 1,
-            "text_id": 1,
             "voice_edited": false,
-            "voice_privacy": false
+            "voice_privacy": false,
+            "creator_id": "9ba45f09651c5b0c404f37a2d2572c026c146690",
+            "category_id": 1,
+            "text_id": 1
         }
     },
     {
@@ -19,12 +19,12 @@
         "fields": {
             "voice_name": "When Harry Met Sally",
             "date_created": "2021-01-01",
-            "creator_id": "9ba45f09651c5b0c404f37a2d2572c026c146688",
             "voice_recording": "Ipsum lorem",
-            "category_id": 3,
-            "text_id": 2,
             "voice_edited": false,
-            "voice_privacy": true
+            "voice_privacy": true,
+            "creator_id": "9ba45f09651c5b0c404f37a2d2572c026c146688",
+            "category_id": 3,
+            "text_id": 2
         }
     },
     {
@@ -33,12 +33,12 @@
         "fields": {
             "voice_name": "Barbershop Song",
             "date_created": "2021-02-03",
-            "creator_id": "9ba45f09651c5b0c404f37a2d2572c026c146690",
             "voice_recording": "Ipsum lorem",
-            "category_id": 2,
-            "text_id": 3,
             "voice_edited": false,
-            "voice_privacy": true
+            "voice_privacy": true,
+            "creator_id": "9ba45f09651c5b0c404f37a2d2572c026c146690",
+            "category_id": 2,
+            "text_id": 3
         }
     }
 ]
