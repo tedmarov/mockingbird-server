@@ -9,27 +9,6 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from serverapi.models import Voice, Text, Category
 
-class UserSerializer(serializers.ModelSerializer):
-    """ JSON serializer for user """
-    class Meta:
-        model = User
-        fields = ('id', 'first_name', 'last_name', 'username')
-
-class TextSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Text
-        fields = ('text_title', 'submitter', 'edited_on', 'text_body', 'text_source')
-
-class VoiceSerializer(serializers.ModelSerializer):
-    """ JSON Serializer for Voices """
-    # category = CategorySerializer(serializers.ModelSerializer)
-    # text = TextSerializer(serializers.ModelSerializer)
-    class Meta:
-        model = Voice
-        fields = ('id', 'voice_name', 'date_created', 'creator', 'voice_recording', 'category', 'text', 'voice_edited', 'voice_privacy')
-        depth = 2
-
-
 class Voices(ViewSet):
 
     def list(self, request):
@@ -110,6 +89,32 @@ class Voices(ViewSet):
 
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class UserSerializer(serializers.ModelSerializer):
+    """ JSON serializer for user """
+    class Meta:
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'username')
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id', 'category_label')
+
+class TextSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Text
+        fields = ('id', 'text_title', 'submitter', 'edited_on', 'text_body', 'text_source')
+
+class VoiceSerializer(serializers.ModelSerializer):
+    """ JSON Serializer for Voices """
+    # category = CategorySerializer(serializers.ModelSerializer)
+    # text = TextSerializer(serializers.ModelSerializer)
+    class Meta:
+        model = Voice
+        fields = ('id', 'voice_name', 'date_created', 'creator', 'voice_recording', 'category', 'text', 'voice_edited', 'voice_privacy')
+        depth = 2
 
 
 # class BirdieTextSerializer(serializers.ModelSerializer):

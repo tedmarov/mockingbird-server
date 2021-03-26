@@ -7,8 +7,8 @@
             "date_created": "2021-03-14",
             "creator": "9ba45f09651c5b0c404f37a2d2572c026c146690",
             "voice_recording": "Ipsum lorem",
-            "category_id": 1,
-            "text_id": 1,
+            "category": 1,
+            "text": 1,
             "voice_edited": false,
             "voice_privacy": false
         }
@@ -21,8 +21,8 @@
             "date_created": "2021-01-01",
             "creator": "9ba45f09651c5b0c404f37a2d2572c026c146688",
             "voice_recording": "Ipsum lorem",
-            "category_id": 3,
-            "text_id": 2,
+            "category": 3,
+            "text": 2,
             "voice_edited": false,
             "voice_privacy": true
         }
@@ -35,8 +35,8 @@
             "date_created": "2021-02-03",
             "creator": "9ba45f09651c5b0c404f37a2d2572c026c146690",
             "voice_recording": "Ipsum lorem",
-            "category_id": 2,
-            "text_id": 3,
+            "category": 2,
+            "text": 3,
             "voice_edited": false,
             "voice_privacy": true
         }
