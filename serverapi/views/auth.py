@@ -4,15 +4,14 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.views.decorators.csrf import csrf_exempt
-from serverapi.models import Birdie
-
 
 
 @csrf_exempt
 def login_user(request):
-    '''Handles the authentication of a dreamcatcher user
+    '''Handles the authentication of a user
+
     Method arguments:
-        request -- The full HTTP request object
+      request -- The full HTTP request object
     '''
 
     req_body = json.loads(request.body.decode())
@@ -28,7 +27,8 @@ def login_user(request):
         # If authentication was successful, respond with their token
         if authenticated_user is not None:
             token = Token.objects.get(user=authenticated_user)
-            data = json.dumps({"valid": True, "token": token.key})
+            # user = User.objects.get(user=authenticated_user)
+            data = json.dumps({"valid": True, "token": token.key, "staff": authenticated_user.is_staff})
             return HttpResponse(data, content_type='application/json')
 
         else:
@@ -39,9 +39,10 @@ def login_user(request):
 
 @csrf_exempt
 def register_user(request):
-    '''Handles the creation of a new dreamcatcher user for authentication
+    '''Handles the creation of a new user for authentication
+
     Method arguments:
-        request -- The full HTTP request object
+      request -- The full HTTP request object
     '''
 
     # Load the JSON string of the request body into a dict
@@ -57,18 +58,9 @@ def register_user(request):
         last_name=req_body['last_name']
     )
 
-    # Now save the extra info in the dreamcatcher_user table
-    birdie = Birdie.objects.create(
-        bio=req_body['bio'],
-        user=new_user,
-
-    )
-
-    birdie.save()
-
     # Use the REST Framework's token generator on the new user account
     token = Token.objects.create(user=new_user)
 
     # Return the token to the client
-    data = json.dumps({"token": token.key})
-    return HttpResponse(data, content_type='application/json') 
+    data = json.dumps({"valid": True, "token": token.key})
+    return HttpResponse(data, content_type='application/json')

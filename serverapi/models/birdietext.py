@@ -1,13 +1,13 @@
-""" Mockingbird Birdie model  """
+# """ Mockingbird Birdie model  """
 
-from django.db import models
-from django.conf import settings
+# from django.db import models
+# from django.conf import settings
 
-class BirdieText(models.Model):
-    """ Model representation of a birdie account that can be created """
+# class BirdieText(models.Model):
+#     """ Model representation of a birdie account that can be created """
 
-    birdie = models.ForeignKey("Birdie", on_delete=models.CASCADE)
-    text = models.ForeignKey("Text", on_delete=models.CASCADE)
+#     birdie = models.ForeignKey("Birdie", on_delete=models.CASCADE)
+#     text = models.ForeignKey("Text", on_delete=models.CASCADE)
 
     # @property
     # def full_name(self):

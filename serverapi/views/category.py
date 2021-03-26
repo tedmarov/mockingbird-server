@@ -1,8 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseServerError
-from rest_framework import status
-from rest_framework import serializers
+from rest_framework import status, serializers
 from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
@@ -24,6 +23,7 @@ class Categories(ViewSet):
             category = Category.objects.get(pk=pk)
             serializer = CategorySerializer(category, context={'request', request})
             return Response(serializer.data)
+
         except Exception as ex:
             return HttpResponseServerError(ex)
 
@@ -36,6 +36,7 @@ class Categories(ViewSet):
             category.save()
             serializer = CategorySerializer(category, context={'request', request})
             return Response(serializer.data)
+
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -62,6 +63,7 @@ class Categories(ViewSet):
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class CategorySerializer(serializers.ModelSerializer):
+    
 	class Meta:
 		model = Category
-		fields = ['category_label']
+		fields = ['id', 'category_label']

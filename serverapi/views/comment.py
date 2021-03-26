@@ -7,7 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-from serverapi.models import Comment, Birdie, Voice
+from serverapi.models import Comment, Voice
 from datetime import datetime
 
 class Comments(ViewSet):
@@ -32,14 +32,14 @@ class Comments(ViewSet):
     def create(self, request):
 
         user = Token.objects.get(user=request.auth.user)
-        voice = Voice.objects.get(pk = request.data['voice_id'])
+        voice = Voice.objects.get(pk = request.data["voice_id"])
 
         comment = Comment()
-        comment.comment_title = request.data['comment_title']
         comment.author = user
-        comment.edited_on = datetime.now()
+        comment.created_on = datetime.now()
+        comment.comment_edited = False
         comment.voice = voice
-        comment.comment_detail = request.data['comment_detail']
+        comment.comment_detail = request.data["comment_detail"]
 
         try:
             comment.save()
@@ -51,14 +51,13 @@ class Comments(ViewSet):
     def update(self, request, pk=None):
 
         user = Token.objects.get(user=request.auth.user)
-        voice = Voice.objects.get(pk=request.data['voice_id'])
+        voice = Voice.objects.get(pk=request.data["voice_id"])
 
         comment = Comment.objects.get(pk=pk)
-        comment.comment_title = request.data['comment_title']
         comment.author = user
-        comment.edited_on = request.data['edited_on']
+        comment.comment_edited = True
         comment.voice = voice
-        comment.comment_detail = request.data['comment_detail']
+        comment.comment_detail = request.data["comment_detail"]
 
         comment.save()
 
@@ -81,5 +80,5 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
 
-        fields = ['comment_title', 'author', 'edited_on', 'voice', 'comment_detail']
+        fields = ('author', 'created_on', 'comment_edited', 'voice', 'comment_detail')
         depth = 2

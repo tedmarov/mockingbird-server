@@ -34,11 +34,10 @@ class Texts(ViewSet):
         user = Token.objects.get(user=request.auth.user)
 
         text = Text()
-        text.text_title = request.data['text_title']
+        text.text_title = request.data["text_title"]
         text.submitter = user
-        text.edited_on = datetime.now()
-        text.text_body = request.data['text_body']
-        text.text_source = request.data['text_source']
+        text.text_body = request.data["text_body"]
+        text.text_source = request.data["text_source"]
 
         try:
             text.save()
@@ -53,11 +52,10 @@ class Texts(ViewSet):
         text = Text.objects.get(pk = request.data['text_id'])
 
         text = Text()
-        text.text_title = request.data['text_title']
+        text.text_title = request.data["text_title"]
         text.submitter = user
-        text.edited_on = datetime.now()
-        text.text_body = request.data['text_body']
-        text.text_source = request.data['text_source']
+        text.text_body = request.data["text_body"]
+        text.text_source = request.data["text_source"]
 
         text.save()
 
@@ -80,5 +78,5 @@ class TextSerializer(serializers.ModelSerializer):
     class Meta:
         model = Text
 
-        fields = ['text_title', 'submitter', 'edited_on', 'text_body', 'text_source']
+        fields = ('text_title', 'submitter', 'text_body', 'text_source')
         depth = 2
