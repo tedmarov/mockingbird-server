@@ -8,7 +8,9 @@ class Voice(models.Model):
     voice_name = models.CharField(max_length=45)
     date_created = models.DateField(auto_now_add=True, auto_now=False)
     creator = models.ForeignKey("Birdie", on_delete=models.CASCADE)
+    voice_recording = models.CharField(max_length=3000)
     category = models.ForeignKey("Category", on_delete=models.CASCADE)
-    text_id = models.CharField(max_length=3000)
+    text = models.ForeignKey("Text", on_delete=models.CASCADE)
     voice_edited = models.DateField(auto_now_add=True, auto_now=False)
     privacy = models.BooleanField(default=False)
+
