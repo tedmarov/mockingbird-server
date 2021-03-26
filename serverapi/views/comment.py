@@ -35,9 +35,9 @@ class Comments(ViewSet):
         voice = Voice.objects.get(pk = request.data['voice_id'])
 
         comment = Comment()
-        comment.comment_title = request.data['comment_title']
         comment.author = user
-        comment.edited_on = datetime.now()
+        comment.created_on = datetime.now()
+        comment.comment_edited = False
         comment.voice = voice
         comment.comment_detail = request.data['comment_detail']
 
@@ -54,9 +54,8 @@ class Comments(ViewSet):
         voice = Voice.objects.get(pk=request.data['voice_id'])
 
         comment = Comment.objects.get(pk=pk)
-        comment.comment_title = request.data['comment_title']
         comment.author = user
-        comment.edited_on = request.data['edited_on']
+        comment.comment_edited = True
         comment.voice = voice
         comment.comment_detail = request.data['comment_detail']
 
@@ -81,5 +80,5 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
 
-        fields = ['comment_title', 'author', 'edited_on', 'voice', 'comment_detail']
+        fields = ['author', 'created_on', 'comment_edited', 'voice', 'comment_detail']
         depth = 2

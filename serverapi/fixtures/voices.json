@@ -9,8 +9,8 @@
             "voice_recording": "Ipsum lorem",
             "category": 1,
             "text": 1,
-            "voice_edited": "2021-03-15",
-            "privacy": false
+            "voice_edited": false,
+            "voice_privacy": false
         }
     },
     {
@@ -23,8 +23,8 @@
             "voice_recording": "Ipsum lorem",
             "category": 3,
             "text": 2,
-            "voice_edited": "2021-01-03",
-            "privacy": true
+            "voice_edited": false,
+            "voice_privacy": true
         }
     },
     {
@@ -37,8 +37,8 @@
             "voice_recording": "Ipsum lorem",
             "category": 2,
             "text": 3,
-            "voice_edited": "2021-02-03",
-            "privacy": true
+            "voice_edited": false,
+            "voice_privacy": true
         }
     }
 ]

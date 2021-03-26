@@ -27,7 +27,6 @@ from serverapi.views import Comments, Voices, Birdies, Categories, Users, Texts,
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'comments', Comments, 'comment')
 router.register(r'voices', Voices, 'voice')
-router.register(r'birdies', Birdies, 'birdie')
 router.register(r'categories', Categories, 'category')
 router.register(r'users', Users, 'user')
 router.register(r'texts', Texts, 'text')
