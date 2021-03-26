@@ -30,7 +30,7 @@ class Categories(ViewSet):
     def create(self, request):
 
         category = Category()
-        category.category_label = request.data['category_label']
+        category.category_label = request.data["category_label"]
 
         try:
             category.save()
@@ -42,7 +42,7 @@ class Categories(ViewSet):
     def update(self, request, pk=None):
 
         category = Category.objects.get(pk=pk)
-        category.category_label = request.data['category_label']
+        category.category_label = request.data["category_label"]
 
         category.save()
 
@@ -64,4 +64,4 @@ class Categories(ViewSet):
 class CategorySerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Category
-		fields = ['category_label']
+		fields = ('category_label')

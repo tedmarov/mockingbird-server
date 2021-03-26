@@ -32,14 +32,14 @@ class Comments(ViewSet):
     def create(self, request):
 
         user = Token.objects.get(user=request.auth.user)
-        voice = Voice.objects.get(pk = request.data['voice_id'])
+        voice = Voice.objects.get(pk = request.data["voice_id"])
 
         comment = Comment()
         comment.author = user
         comment.created_on = datetime.now()
         comment.comment_edited = False
         comment.voice = voice
-        comment.comment_detail = request.data['comment_detail']
+        comment.comment_detail = request.data["comment_detail"]
 
         try:
             comment.save()
@@ -51,13 +51,13 @@ class Comments(ViewSet):
     def update(self, request, pk=None):
 
         user = Token.objects.get(user=request.auth.user)
-        voice = Voice.objects.get(pk=request.data['voice_id'])
+        voice = Voice.objects.get(pk=request.data["voice_id"])
 
         comment = Comment.objects.get(pk=pk)
         comment.author = user
         comment.comment_edited = True
         comment.voice = voice
-        comment.comment_detail = request.data['comment_detail']
+        comment.comment_detail = request.data["comment_detail"]
 
         comment.save()
 
@@ -80,5 +80,5 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
 
-        fields = ['author', 'created_on', 'comment_edited', 'voice', 'comment_detail']
+        fields = ('author', 'created_on', 'comment_edited', 'voice', 'comment_detail')
         depth = 2

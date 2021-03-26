@@ -15,12 +15,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'first_name', 'last_name', 'username')
 
-class CategorySerializer(serializers.ModelSerializer):
-    """ JSON Serializer for Voice type """
-    class Meta:
-        model = Category
-        fields = ('id', 'category_label')
-
 class TextSerializer(serializers.ModelSerializer):
     class Meta:
         model = Text
@@ -28,8 +22,8 @@ class TextSerializer(serializers.ModelSerializer):
 
 class VoiceSerializer(serializers.ModelSerializer):
     """ JSON Serializer for Voices """
-    category = CategorySerializer(serializers.ModelSerializer)
-    text = TextSerializer(serializers.ModelSerializer)
+    # category = CategorySerializer(serializers.ModelSerializer)
+    # text = TextSerializer(serializers.ModelSerializer)
     class Meta:
         model = Voice
         fields = ('id', 'voice_name', 'date_created', 'creator', 'voice_recording', 'category', 'text', 'voice_edited', 'voice_privacy')
@@ -60,18 +54,18 @@ class Voices(ViewSet):
         """ POST operations for adding a Voice """
 
         user = Token.objects.get(user=request.auth.user)
-        category = Category.objects.get(pk = request.data['category_id'])
-        text = Text.objects.get(pk = request.data['text_id'])
+        category = Category.objects.get(pk=request.data["category_id"])
+        text = Text.objects.get(pk = request.data["text_id"])
 
         voice = Voice()
-        voice.voice_name = request.data['voice_name']
-        voice.date_created = request.data['date_created']
+        voice.voice_name = request.data["voice_name"]
+        voice.date_created = request.data["date_created"]
         voice.creator = user
-        voice.voice_recording = request.data['voice_recording']
+        voice.voice_recording = request.data["voice_recording"]
         voice.category = category
         voice.text = text
         voice.voice_edited = False
-        voice.voice_privacy = request.data['voice_privacy']
+        voice.voice_privacy = request.data["voice_privacy"]
 
 
         try:
@@ -90,14 +84,14 @@ class Voices(ViewSet):
         text = Text.objects.get(pk = request.data['text_id'])
 
         voice = Voice.objects.get(pk=pk)
-        voice.voice_name = request.data['voice_name']
-        voice.date_created = request.data['date_created']
+        voice.voice_name = request.data["voice_name"]
+        voice.date_created = request.data["date_created"]
         voice.creator = user
-        voice.voice_recording = request.data['voice_recording']
+        voice.voice_recording = request.data["voice_recording"]
         voice.category = category
         voice.text = text
         voice.voice_edited = True
-        voice.voice_privacy = request.data['voice_privacy']
+        voice.voice_privacy = request.data["voice_privacy"]
         
         voice.save()
 
