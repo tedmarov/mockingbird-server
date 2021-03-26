@@ -32,7 +32,7 @@ class VoiceSerializer(serializers.ModelSerializer):
     text = TextSerializer(serializers.ModelSerializer)
     class Meta:
         model = Voice
-        fields = ('id', 'voice_name', 'date_created', 'creator', 'category', 'voice_recording', 'text', 'voice_edited', 'privacy')
+        fields = ('id', 'voice_name', 'date_created', 'creator', 'category', 'voice_recording', 'text', 'voice_edited', 'voice_privacy')
         depth = 2
 
 
@@ -71,7 +71,7 @@ class Voices(ViewSet):
         voice.category = category
         voice.text = text
         voice.voice_edited = False
-        voice.voice_privacy = request.data['privacy']
+        voice.voice_privacy = request.data['voice_privacy']
 
 
         try:
@@ -97,7 +97,7 @@ class Voices(ViewSet):
         voice.category = category
         voice.text = text
         voice.voice_edited = True
-        voice.voice_privacy = request.data['privacy']
+        voice.voice_privacy = request.data['voice_privacy']
         
         voice.save()
 

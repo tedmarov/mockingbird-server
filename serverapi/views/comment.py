@@ -7,7 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-from serverapi.models import Comment, Birdie, Voice
+from serverapi.models import Comment, Voice
 from datetime import datetime
 
 class Comments(ViewSet):
