@@ -18,7 +18,7 @@ class Categories(ViewSet):
 
         categories = Category.objects.all()
 
-        serializer = CategorySerializer(categories, many=False, context={'request', request})
+        serializer = CategorySerializer(categories, many=True, context={'request', request})
 
         return Response(serializer.data)
 

@@ -1,5 +1,4 @@
 """View module for handling requests about voices"""
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseServerError
 from rest_framework import status, serializers
@@ -7,6 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import User
 from serverapi.models import Voice, Text, Category
 
 class Voices(ViewSet):
@@ -34,15 +34,15 @@ class Voices(ViewSet):
 
         user = Token.objects.get(user=request.auth.user)
         category = Category.objects.get(pk=request.data["category_id"])
-        text = Text.objects.get(pk = request.data["text_id"])
+        text = Text.objects.get(pk=request.data["text_id"])
 
         voice = Voice()
         voice.voice_name = request.data["voice_name"]
         voice.date_created = request.data["date_created"]
         voice.creator = user
         voice.voice_recording = request.data["voice_recording"]
-        voice.category = category
-        voice.text = text
+        voice.category_id = category
+        voice.text_id = text
         voice.voice_edited = False
         voice.voice_privacy = request.data["voice_privacy"]
 
@@ -59,16 +59,16 @@ class Voices(ViewSet):
         """ update/ edit an existing Voice """
 
         user = Token.objects.get(user=request.auth.user)
-        category = Category.objects.get(pk = request.data['category_id'])
-        text = Text.objects.get(pk = request.data['text_id'])
+        category = Category.objects.get(pk = request.data["category_id"])
+        text = Text.objects.get(pk = request.data["text_id"])
 
         voice = Voice.objects.get(pk=pk)
         voice.voice_name = request.data["voice_name"]
         voice.date_created = request.data["date_created"]
         voice.creator = user
         voice.voice_recording = request.data["voice_recording"]
-        voice.category = category
-        voice.text = text
+        voice.category_id = category
+        voice.text_id = text
         voice.voice_edited = True
         voice.voice_privacy = request.data["voice_privacy"]
         
@@ -105,7 +105,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class TextSerializer(serializers.ModelSerializer):
     class Meta:
         model = Text
-        fields = ('id', 'text_title', 'submitter', 'edited_on', 'text_body', 'text_source')
+        fields = ('id', 'text_title', 'submitter', 'text_body', 'text_source')
 
 class VoiceSerializer(serializers.ModelSerializer):
     """ JSON Serializer for Voices """
@@ -120,7 +120,7 @@ class VoiceSerializer(serializers.ModelSerializer):
 # class BirdieTextSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = BirdieText
-#         fields = ('bio', 'user', 'text_title', 'submitter', 'edited_on', 'text_body', 'text_source')
+#         fields = ('bio', 'user', 'text_title', 'submitter', 'text_body', 'text_source')
 #         depth = 2
 
 # # Create Custom Action to add to MtoM table?

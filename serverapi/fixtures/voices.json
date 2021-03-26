@@ -17,7 +17,7 @@
         "model": "serverapi.voice",
         "pk": 2,
         "fields": {
-            "voice_name": "Rom Com",
+            "voice_name": "When Harry Met Sally",
             "date_created": "2021-01-01",
             "creator": "9ba45f09651c5b0c404f37a2d2572c026c146688",
             "voice_recording": "Ipsum lorem",
@@ -31,7 +31,7 @@
         "model": "serverapi.voice",
         "pk": 3,
         "fields": {
-            "voice_name": "Song",
+            "voice_name": "Barbershop Song",
             "date_created": "2021-02-03",
             "creator": "9ba45f09651c5b0c404f37a2d2572c026c146690",
             "voice_recording": "Ipsum lorem",
