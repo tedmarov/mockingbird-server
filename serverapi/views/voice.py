@@ -32,19 +32,19 @@ class Voices(ViewSet):
     def create(self, request):
         """ POST operations for adding a Voice """
 
-        user = Token.objects.get(user=request.auth.user)
-        category = Category.objects.get(pk=request.data["category_id"])
-        text = Text.objects.get(pk=request.data["text_id"])
 
         voice = Voice()
         voice.voice_name = request.data["voice_name"]
         voice.date_created = request.data["date_created"]
-        voice.creator = user
-        voice.voice_recording = request.data["voice_recording"]
-        voice.category_id = category
-        voice.text_id = text
         voice.voice_edited = False
         voice.voice_privacy = request.data["voice_privacy"]
+        voice.voice_recording = request.data["voice_recording"]
+        user = Token.objects.get(user=request.auth.user)
+        category = Category.objects.get(pk=request.data["category_id"])
+        text = Text.objects.get(pk=request.data["text_id"])
+        voice.creator = user
+        voice.category = category
+        voice.text = text
 
 
         try:
@@ -58,19 +58,19 @@ class Voices(ViewSet):
     def update(self, request, pk=None):
         """ update/ edit an existing Voice """
 
-        user = Token.objects.get(user=request.auth.user)
-        category = Category.objects.get(pk = request.data["category_id"])
-        text = Text.objects.get(pk = request.data["text_id"])
 
         voice = Voice.objects.get(pk=pk)
         voice.voice_name = request.data["voice_name"]
         voice.date_created = request.data["date_created"]
-        voice.creator = user
         voice.voice_recording = request.data["voice_recording"]
-        voice.category_id = category
-        voice.text_id = text
         voice.voice_edited = True
         voice.voice_privacy = request.data["voice_privacy"]
+        user = Token.objects.get(user=request.auth.user)
+        category = Category.objects.get(pk = request.data["category_id"])
+        text = Text.objects.get(pk = request.data["text_id"])
+        voice.creator = user
+        voice.category_id = category
+        voice.text_id = text
         
         voice.save()
 
