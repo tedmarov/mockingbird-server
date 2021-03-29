@@ -1,19 +1,18 @@
-"""View module for handling requests about voices"""
-from django.core.exceptions import ValidationError
 from django.http import HttpResponseServerError
-from rest_framework import status, serializers
-# from rest_framework.decorators import action
+from django.core.exceptions import ValidationError
+from rest_framework import status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
+from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from serverapi.models import Voice, Text, Category
 
-class UserSerializer(serializers.ModelSerializer):
-    """ JSON serializer for user """
-    class Meta:
-        model = User
-        fields = ('id', 'first_name', 'last_name', 'username')
+# class UserSerializer(serializers.ModelSerializer):
+#     """ JSON serializer for user """
+#     class Meta:
+#         model = User
+#         fields = ('id', 'first_name', 'last_name', 'username')
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -59,18 +58,15 @@ class Voices(ViewSet):
 
 
         voice = Voice()
-        voice.voice_name = request.data["voice_name"]
-        voice.date_created = request.data["date_created"]
-        voice.voice_edited = False
-        voice.voice_privacy = request.data["voice_privacy"]
-        voice.voice_recording = request.data["voice_recording"]
-        user = Token.objects.get(user=request.auth.user)
-        category = Category.objects.get(pk=request.data["category_id"])
-        print(category)
-        text = Text.objects.get(pk=request.data["text_id"])
-        voice.creator = user
-        voice.category = category
-        voice.text = text
+        voice.creator_id = Token.objects.get(user=request.auth.user)
+        # voice.voice_name = request.data["voice_name"]
+        # voice.date_created = request.data["date_created"]
+        # voice.voice_edited = False
+        # voice.voice_privacy = request.data["voice_privacy"]
+        # voice.voice_recording = request.data["voice_recording"]
+        # print(request.data['category_id'])
+        # voice.category = Category.objects.get(pk=request.data["category_id"])
+        # voice.text = Text.objects.get(pk=request.data["text_id"])
 
 
         try:
