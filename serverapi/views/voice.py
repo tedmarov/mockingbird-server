@@ -2,7 +2,7 @@
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseServerError
 from rest_framework import status, serializers
-from rest_framework.decorators import action
+# from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -41,6 +41,7 @@ class Voices(ViewSet):
         voice.voice_recording = request.data["voice_recording"]
         user = Token.objects.get(user=request.auth.user)
         category = Category.objects.get(pk=request.data["category_id"])
+        print(category)
         text = Text.objects.get(pk=request.data["text_id"])
         voice.creator = user
         voice.category = category
