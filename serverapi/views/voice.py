@@ -59,14 +59,14 @@ class Voices(ViewSet):
 
         voice = Voice()
         voice.creator_id = Token.objects.get(user=request.auth.user)
-        # voice.voice_name = request.data["voice_name"]
-        # voice.date_created = request.data["date_created"]
-        # voice.voice_edited = False
-        # voice.voice_privacy = request.data["voice_privacy"]
-        # voice.voice_recording = request.data["voice_recording"]
-        # print(request.data['category_id'])
-        # voice.category = Category.objects.get(pk=request.data["category_id"])
-        # voice.text = Text.objects.get(pk=request.data["text_id"])
+        voice.voice_name = request.data["voice_name"]
+        voice.date_created = request.data["date_created"]
+        voice.voice_edited = False
+        voice.voice_privacy = request.data["voice_privacy"]
+        voice.voice_recording = request.data["voice_recording"]
+        print(request.data['category_id'])
+        voice.category_ids = Category.objects.get(pk=request.data["category_id"])
+        voice.text_id = Text.objects.get(pk=request.data["text_id"])
 
 
         try:
