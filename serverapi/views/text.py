@@ -72,6 +72,5 @@ class Texts(ViewSet):
 class TextSerializer(serializers.ModelSerializer):
     class Meta:
         model = Text
-
         fields = ('id', 'text_title', 'submitter', 'text_body', 'text_source')
         depth = 2
