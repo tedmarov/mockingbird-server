@@ -17,12 +17,12 @@ from serverapi.models import Voice, Text, Category
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('id', 'category_label')
+        fields = ('category_id', 'category_label')
 
 class TextSerializer(serializers.ModelSerializer):
     class Meta:
         model = Text
-        fields = ('id', 'text_title', 'submitter', 'text_body', 'text_source')
+        fields = ('text_id', 'text_title', 'submitter', 'text_body', 'text_source')
 
 class VoiceSerializer(serializers.ModelSerializer):
     """ JSON Serializer for Voices """

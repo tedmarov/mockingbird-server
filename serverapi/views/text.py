@@ -8,7 +8,6 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from serverapi.models import Text
-from datetime import datetime
 
 class Texts(ViewSet):
 
@@ -31,11 +30,9 @@ class Texts(ViewSet):
 
     def create(self, request):
 
-        user = Token.objects.get(user=request.auth.user)
-
         text = Text()
         text.text_title = request.data["text_title"]
-        text.submitter = user
+        text.submitter = Token.objects.get(user=request.auth.user)
         text.text_body = request.data["text_body"]
         text.text_source = request.data["text_source"]
 
@@ -43,17 +40,15 @@ class Texts(ViewSet):
             text.save()
             serializer = TextSerializer(text, context={'request', request})
             return Response(serializer.data)
+
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
 
-        user = Token.objects.get(user=request.auth.user)
-        text = Text.objects.get(pk = request.data['text_id'])
-
-        text = Text()
+        text = Text.objects.get(pk=pk)
         text.text_title = request.data["text_title"]
-        text.submitter = user
+        text.submitter = Token.objects.get(user=request.auth.user)
         text.text_body = request.data["text_body"]
         text.text_source = request.data["text_source"]
 
@@ -77,6 +72,5 @@ class Texts(ViewSet):
 class TextSerializer(serializers.ModelSerializer):
     class Meta:
         model = Text
-
-        fields = ('text_title', 'submitter', 'text_body', 'text_source')
+        fields = ('id', 'text_title', 'submitter', 'text_body', 'text_source')
         depth = 2

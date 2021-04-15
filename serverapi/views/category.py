@@ -1,11 +1,16 @@
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseServerError
-from rest_framework import status, serializers
-from rest_framework.decorators import action
+from rest_framework import status
+from rest_framework import serializers
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from serverapi.models import Category
+
+class CategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Category
+        fields = ('id', 'category_label')
 
 class Categories(ViewSet):
 
@@ -13,7 +18,7 @@ class Categories(ViewSet):
 
         categories = Category.objects.all()
 
-        serializer = CategorySerializer(categories, many=True, context={'request', request})
+        serializer = CategorySerializer(categories, many=True, context={'request': request})
 
         return Response(serializer.data)
 
@@ -21,7 +26,8 @@ class Categories(ViewSet):
 
         try:
             category = Category.objects.get(pk=pk)
-            serializer = CategorySerializer(category, context={'request', request})
+            
+            serializer = CategorySerializer(category, context={'request': request})
             return Response(serializer.data)
 
         except Exception as ex:
@@ -43,6 +49,7 @@ class Categories(ViewSet):
     def update(self, request, pk=None):
 
         category = Category.objects.get(pk=pk)
+        
         category.category_label = request.data['category_label']
 
         category.save()
@@ -50,8 +57,10 @@ class Categories(ViewSet):
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
     def destroy(self, request, pk=None):
+        
         try:
             category = Category.objects.get(pk=pk)
+            
             category.delete()
 
             return Response({}, status=status.HTTP_204_NO_CONTENT)
@@ -61,9 +70,3 @@ class Categories(ViewSet):
 
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-class CategorySerializer(serializers.ModelSerializer):
-    
-	class Meta:
-		model = Category
-		fields = ['id', 'category_label']
