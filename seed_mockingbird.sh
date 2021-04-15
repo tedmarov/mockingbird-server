@@ -12,7 +12,7 @@ python3 manage.py loaddata texts
 python3 manage.py loaddata voices
 python3 manage.py loaddata comments
 
-# Create a seed.sh file in your project directory
-# Place the code below in the file.
+# Create a seed file in your project directory
+# Place the code in the file.
 # Run chmod +x seed_mockingbird.sh in the terminal.
 # Then run ./seed_mockingbird.sh in the terminal to run the commands.
