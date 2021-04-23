@@ -30,7 +30,7 @@ class VoiceSerializer(serializers.ModelSerializer):
     # text = TextSerializer(serializers.ModelSerializer)
     class Meta:
         model = Voice
-        fields = ('id', 'name', 'created', 'creator_id', 'recording', 'category_id', 'text_id', 'edited', 'privacy')
+        fields = ('id', 'name', 'created','recording', 'edited', 'privacy', 'creator_id',  'category_id', 'text_id')
         depth = 2
 
 class Voices(ViewSet):
@@ -44,7 +44,7 @@ class Voices(ViewSet):
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
-        """ get a single Voice """
+        """ GET a single Voice """
 
         try:
             voice = Voice.objects.get(pk=pk)
@@ -58,14 +58,13 @@ class Voices(ViewSet):
 
 
         voice = Voice()
-        voice.creator_id = Token.objects.get(user=request.auth.user)
         voice.name = request.data["name"]
         voice.created = request.data["created"]
         voice.edited = False
         voice.privacy = request.data["privacy"]
         voice.recording = request.data["recording"]
-        print(request.data['category_id'])
-        voice.category_ids = Category.objects.get(pk=request.data["category_id"])
+        voice.creator_id = Token.objects.get(user=request.auth.user)
+        voice.category_id = Category.objects.get(pk=request.data["category_id"])
         voice.text_id = Text.objects.get(pk=request.data["text_id"])
 
 
@@ -87,12 +86,9 @@ class Voices(ViewSet):
         voice.recording = request.data["recording"]
         voice.edited = True
         voice.privacy = request.data["privacy"]
-        user = Token.objects.get(user=request.auth.user)
-        category = Category.objects.get(pk = request.data["category_id"])
-        text = Text.objects.get(pk = request.data["text_id"])
-        voice.creator = user
-        voice.category_id = category
-        voice.text_id = text
+        voice.creator_id = Token.objects.get(user=request.auth.user)
+        voice.category_id = Category.objects.get(pk = request.data["category_id"])
+        voice.text_id = Text.objects.get(pk = request.data["text_id"])
         
         voice.save()
 
