@@ -30,7 +30,7 @@ class VoiceSerializer(serializers.ModelSerializer):
     # text = TextSerializer(serializers.ModelSerializer)
     class Meta:
         model = Voice
-        fields = ('id', 'voice_name', 'date_created', 'creator_id', 'voice_recording', 'category_id', 'text_id', 'voice_edited', 'voice_privacy')
+        fields = ('id', 'name', 'created', 'recording', 'edited', 'privacy', 'creator_id', 'category_id', 'text_id')
         depth = 2
 
 class Voices(ViewSet):
@@ -56,16 +56,14 @@ class Voices(ViewSet):
     def create(self, request):
         """ POST operations for adding a Voice """
 
-
         voice = Voice()
+        voice.name = request.data["name"]
+        voice.created = request.data["created"]
+        voice.recording = request.data["recording"]
+        voice.edited = False
+        voice.privacy = request.data["privacy"]
         voice.creator_id = Token.objects.get(user=request.auth.user)
-        voice.voice_name = request.data["voice_name"]
-        voice.date_created = request.data["date_created"]
-        voice.voice_edited = False
-        voice.voice_privacy = request.data["voice_privacy"]
-        voice.voice_recording = request.data["voice_recording"]
-        print(request.data['category_id'])
-        voice.category_ids = Category.objects.get(pk=request.data["category_id"])
+        voice.category_id = Category.objects.get(pk=request.data["category_id"])
         voice.text_id = Text.objects.get(pk=request.data["text_id"])
 
 
@@ -82,11 +80,11 @@ class Voices(ViewSet):
 
 
         voice = Voice.objects.get(pk=pk)
-        voice.voice_name = request.data["voice_name"]
-        voice.date_created = request.data["date_created"]
-        voice.voice_recording = request.data["voice_recording"]
-        voice.voice_edited = True
-        voice.voice_privacy = request.data["voice_privacy"]
+        voice.name = request.data["name"]
+        voice.created = request.data["created"]
+        voice.recording = request.data["recording"]
+        voice.edited = True
+        voice.privacy = request.data["privacy"]
         user = Token.objects.get(user=request.auth.user)
         category = Category.objects.get(pk = request.data["category_id"])
         text = Text.objects.get(pk = request.data["text_id"])
