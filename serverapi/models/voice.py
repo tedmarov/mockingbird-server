@@ -5,7 +5,7 @@ class Voice(models.Model):
     """ Model representation of a voice that any birdie can make """
 
     name = models.CharField(max_length=45)
-    created = models.DateField(auto_now_add=True, auto_now=False)
+    create_date = models.DateField(auto_now_add=True, auto_now=False)
     recording = models.CharField(max_length=3000)
     edited = models.BooleanField()
     privacy = models.BooleanField()
