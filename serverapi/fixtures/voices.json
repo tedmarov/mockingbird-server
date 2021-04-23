@@ -4,7 +4,7 @@
         "pk": 1,
         "fields": {
             "name": "Legend of Korra",
-            "created": "2021-03-14",
+            "create_date": "2021-03-14",
             "recording": "Ipsum lorem",
             "edited": false,
             "privacy": false,
@@ -18,7 +18,7 @@
         "pk": 2,
         "fields": {
             "name": "When Harry Met Sally",
-            "created": "2021-01-01",
+            "create_date": "2021-01-01",
             "recording": "Ipsum lorem",
             "edited": false,
             "privacy": true,
@@ -32,7 +32,7 @@
         "pk": 3,
         "fields": {
             "name": "Barbershop Song",
-            "created": "2021-02-03",
+            "create_date": "2021-02-03",
             "recording": "Ipsum lorem",
             "edited": false,
             "privacy": true,

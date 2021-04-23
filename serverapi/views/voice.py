@@ -1,47 +1,47 @@
-from django.http import HttpResponseServerError
+"""View module for handling requests about voices"""
+from datetime import datetime
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.http import HttpResponseServerError
 from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from django.contrib.auth.models import User
 from serverapi.models import Voice, Text, Category
-
-# class UserSerializer(serializers.ModelSerializer):
-#     """ JSON serializer for user """
-#     class Meta:
-#         model = User
-#         fields = ('id', 'first_name', 'last_name', 'username')
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ('category_id', 'category_label')
-
-class TextSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Text
-        fields = ('text_id', 'text_title', 'submitter', 'text_body', 'text_source')
-
-class VoiceSerializer(serializers.ModelSerializer):
-    """ JSON Serializer for Voices """
-    # category = CategorySerializer(serializers.ModelSerializer)
-    # text = TextSerializer(serializers.ModelSerializer)
-    class Meta:
-        model = Voice
-        fields = ('id', 'name', 'created', 'recording', 'edited', 'privacy', 'creator_id', 'category_id', 'text_id')
-        depth = 2
 
 class Voices(ViewSet):
 
-    def list(self, request):
-        "GET all Voices"
-        voices = Voice.objects.all()
+    # It feels like I'll never finish this component.
 
-        serializer = VoiceSerializer(voices, many=True, context={'request': request})
+    def create(self, request):
+        """Handle POST operations for adding a voice
+        
+        Returns:
+            Response -- JSON serialized voice instance
+        """
 
-        return Response(serializer.data)
+        voice = Voice()
+        voice.name = request.data["name"]
+        voice.create_date = request.data["create_date"]
+        voice.recording = request.data["recording"]
+        voice.edited = request.data["edited"]
+        voice.privacy = request.data["privacy"]
+        token = Token.objects.get(user=request.auth.user)
+        voice.creator_id = token
+        category = Category.objects.get(pk=request.data["category_id"])
+        voice.category = category
+        text = Text.objects.get(pk=request.data["text_id"])
+        voice.text = text
+
+        try:
+            voice.save()
+            serializer = VoiceSerializer(voice, context={'request': request})
+            return Response(serializer.data)
+
+        except ValidationError as ex:
+            return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
     def retrieve(self, request, pk=None):
         """ get a single Voice """
@@ -53,27 +53,13 @@ class Voices(ViewSet):
         except Exception as ex:
             return HttpResponseServerError(ex)
 
-    def create(self, request):
-        """ POST operations for adding a Voice """
+    def list(self, request):
+        "GET all Voices"
+        voices = Voice.objects.all()
 
-        voice = Voice()
-        voice.name = request.data["name"]
-        voice.created = request.data["created"]
-        voice.recording = request.data["recording"]
-        voice.edited = False
-        voice.privacy = request.data["privacy"]
-        voice.creator_id = Token.objects.get(user=request.auth.user)
-        voice.category_id = Category.objects.get(pk=request.data["category_id"])
-        voice.text_id = Text.objects.get(pk=request.data["text_id"])
+        serializer = VoiceSerializer(voices, many=True, context={'request': request})
 
-
-        try:
-            voice.save()
-            serializer = VoiceSerializer(voice, context={'request': request})
-            return Response(serializer.data)
-
-        except ValidationError as ex:
-            return Response({'reason': ex.message}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.data)
 
     def update(self, request, pk=None):
         """ update/ edit an existing Voice """
@@ -81,7 +67,7 @@ class Voices(ViewSet):
 
         voice = Voice.objects.get(pk=pk)
         voice.name = request.data["name"]
-        voice.created = request.data["created"]
+        voice.create_date = request.data["create_date"]
         voice.recording = request.data["recording"]
         voice.edited = True
         voice.privacy = request.data["privacy"]
@@ -110,6 +96,33 @@ class Voices(ViewSet):
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('category_id', 'category_label')
+
+class TextSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Text
+        fields = ('text_id', 'text_title', 'submitter', 'text_body', 'text_source')
+
+class VoiceSerializer(serializers.ModelSerializer):
+    """ JSON Serializer for Voices """
+    # category = CategorySerializer(serializers.ModelSerializer)
+    # text = TextSerializer(serializers.ModelSerializer)
+    class Meta:
+        model = Voice
+        fields = ('id', 'name', 'create_date', 'recording', 'edited', 'privacy', 'creator', 'category', 'text')
+        depth = 2
+
+class VoiceListSerializer(serializers.ModelSerializer):
+    """JSON serializer for voices"""
+
+    class Meta:
+        model = Voice
+        fields = ('id', 'name', 'create_date', 'recording', 'edited', 'privacy', 'creator', 'category', 'text')
+        depth = 2
 
 
 # class BirdieTextSerializer(serializers.ModelSerializer):
@@ -147,7 +160,7 @@ class Voices(ViewSet):
 #                 recording.birdie = birdie
 #                 recording.save()
 
-#                 return Response({}, status=status.HTTP_201_CREATED)
+#                 return Response({}, status=status.HTTP_201_create_date)
             
 #         # Voice is to be deleted
 #         elif request.method == "DELETE":
