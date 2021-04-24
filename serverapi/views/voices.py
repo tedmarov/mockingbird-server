@@ -53,14 +53,6 @@ class Voices(ViewSet):
         except Exception as ex:
             return HttpResponseServerError(ex)
 
-    def list(self, request):
-        "GET all Voices"
-        voices = Voice.objects.all()
-
-        serializer = VoiceSerializer(voices, many=True, context={'request': request})
-
-        return Response(serializer.data)
-
     def update(self, request, pk=None):
         """ update/ edit an existing Voice """
 
@@ -69,15 +61,13 @@ class Voices(ViewSet):
         voice.name = request.data["name"]
         voice.create_date = request.data["create_date"]
         voice.recording = request.data["recording"]
-        voice.edited = True
+        voice.edited = request.data["edited"]
         voice.privacy = request.data["privacy"]
-        user = Token.objects.get(user=request.auth.user)
+        voice.creator = voice.creator
         category = Category.objects.get(pk = request.data["category_id"])
-        text = Text.objects.get(pk = request.data["text_id"])
-        voice.creator = user
         voice.category_id = category
+        text = Text.objects.get(pk=request.data["text_id"])
         voice.text_id = text
-        
         voice.save()
 
         return Response({}, status=status.HTTP_204_NO_CONTENT)
@@ -88,6 +78,7 @@ class Voices(ViewSet):
         try:
             voice = Voice.objects.get(pk=pk)
             voice.delete()
+
             return Response({}, status=status.HTTP_204_NO_CONTENT)
 
         except Voice.DoesNotExist as ex:
@@ -95,6 +86,13 @@ class Voices(ViewSet):
 
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def list(self, request):
+        "GET all Voices"
+        voices = Voice.objects.all()
+
+        serializer = VoiceListSerializer(voices, many=True, context={'request': request})
+        return Response(serializer.data)
 
 class VoiceSerializer(serializers.ModelSerializer):
     """ JSON Serializer for Voices """
