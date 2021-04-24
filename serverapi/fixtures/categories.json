@@ -3,28 +3,28 @@
         "model": "serverapi.category",
         "pk": 1,
         "fields": {
-            "category_label": "Poem"
+            "label": "Poem"
         }
     },
     {
         "model": "serverapi.category",
         "pk": 2,
         "fields": {
-            "category_label": "Song"
+            "label": "Song"
         }
     },
     {
         "model": "serverapi.category",
         "pk": 3,
         "fields": {
-            "category_label": "Scene"
+            "label": "Scene"
         }
     },
     {
         "model": "serverapi.category",
         "pk": 4,
         "fields": {
-            "category_label": "Custom"
+            "label": "Custom"
         }
     }
 ]

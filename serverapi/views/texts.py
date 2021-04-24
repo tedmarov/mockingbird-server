@@ -1,8 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseServerError
-from rest_framework import status
-from rest_framework import serializers
+from rest_framework import status, serializers
 from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
@@ -25,16 +24,18 @@ class Texts(ViewSet):
             text = Text.objects.get(pk=pk)
             serializer = TextSerializer(text, context={'request', request})
             return Response(serializer.data)
+
         except Exception as ex:
             return HttpResponseServerError(ex)
 
     def create(self, request):
 
         text = Text()
-        text.text_title = request.data["text_title"]
-        text.submitter = Token.objects.get(user=request.auth.user)
-        text.text_body = request.data["text_body"]
-        text.text_source = request.data["text_source"]
+        text.title = request.data['title']
+        token = Token.objects.get(user=request.auth.user)
+        text.submitter = token
+        text.body = request.data['body']
+        text.source = request.data['source']
 
         try:
             text.save()
@@ -47,10 +48,10 @@ class Texts(ViewSet):
     def update(self, request, pk=None):
 
         text = Text.objects.get(pk=pk)
-        text.text_title = request.data["text_title"]
+        text.title = request.data['title']
         text.submitter = Token.objects.get(user=request.auth.user)
-        text.text_body = request.data["text_body"]
-        text.text_source = request.data["text_source"]
+        text.body = request.data['body']
+        text.source = request.data['source']
 
         text.save()
 
@@ -72,5 +73,5 @@ class Texts(ViewSet):
 class TextSerializer(serializers.ModelSerializer):
     class Meta:
         model = Text
-        fields = ('id', 'text_title', 'submitter', 'text_body', 'text_source')
+        fields = ('id', 'title', 'submitter', 'body', 'source')
         depth = 2

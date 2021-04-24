@@ -1,16 +1,11 @@
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseServerError
-from rest_framework import status
-from rest_framework import serializers
+from rest_framework import status, serializers
+from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from serverapi.models import Category
-
-class CategorySerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Category
-        fields = ('id', 'category_label')
 
 class Categories(ViewSet):
 
@@ -26,7 +21,6 @@ class Categories(ViewSet):
 
         try:
             category = Category.objects.get(pk=pk)
-            
             serializer = CategorySerializer(category, context={'request': request})
             return Response(serializer.data)
 
@@ -36,7 +30,7 @@ class Categories(ViewSet):
     def create(self, request):
 
         category = Category()
-        category.category_label = request.data['category_label']
+        category.label = request.data['label']
 
         try:
             category.save()
@@ -50,14 +44,12 @@ class Categories(ViewSet):
 
         category = Category.objects.get(pk=pk)
         
-        category.category_label = request.data['category_label']
-
+        category.label = request.data['label']
         category.save()
 
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
     def destroy(self, request, pk=None):
-        
         try:
             category = Category.objects.get(pk=pk)
             
@@ -70,3 +62,9 @@ class Categories(ViewSet):
 
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class CategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Category
+        fields = ('id', 'label')
