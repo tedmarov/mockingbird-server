@@ -96,21 +96,9 @@ class Voices(ViewSet):
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ('category_id', 'category_label')
-
-class TextSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Text
-        fields = ('text_id', 'text_title', 'submitter', 'text_body', 'text_source')
-
 class VoiceSerializer(serializers.ModelSerializer):
     """ JSON Serializer for Voices """
-    # category = CategorySerializer(serializers.ModelSerializer)
-    # text = TextSerializer(serializers.ModelSerializer)
+
     class Meta:
         model = Voice
         fields = ('id', 'name', 'create_date', 'recording', 'edited', 'privacy', 'creator', 'category', 'text')
@@ -123,67 +111,3 @@ class VoiceListSerializer(serializers.ModelSerializer):
         model = Voice
         fields = ('id', 'name', 'create_date', 'recording', 'edited', 'privacy', 'creator', 'category', 'text')
         depth = 2
-
-
-# class BirdieTextSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = BirdieText
-#         fields = ('bio', 'user', 'text_title', 'submitter', 'text_body', 'text_source')
-#         depth = 2
-
-# # Create Custom Action to add to MtoM table?
-#     @action(methods=['post', 'delete'], detail=True)
-#     def modifyBirdieText(self, request, pk=None):
-#         """Managing multiple birdies having multiple texts"""
-
-#         # A birdie just recorded the voice and wants to post
-#         if request.method == "POST":
-#             # The pk would depend
-#             text = Text.objects.get(pk=pk)
-
-#             # Django uses Auth header to figure out
-#             # the birdie that posted
-#             birdie = Birdie.objects.get(user=request.auth.user)
-
-#             try:
-#                 # Was this recording already made?
-#                 recording = BirdieText.objects.get(
-#                     text=text, birdie=birdie)
-#                 return Response(
-#                     {'message': 'Birdie already posted this voice recording.'},
-#                     status=status.HTTP_422_UNPROCESSABLE_ENTITY
-#                 )
-#             except BirdieText.DoesNotExist:
-#                 # The BirdieText instance does not exist
-#                 recording = BirdieText()
-#                 recording.text = text
-#                 recording.birdie = birdie
-#                 recording.save()
-
-#                 return Response({}, status=status.HTTP_201_create_date)
-            
-#         # Voice is to be deleted
-#         elif request.method == "DELETE":
-#             # Handle the case if the birdie specifies a non-existing object
-#             try:
-#                 text = Text.objects.get(pk=pk)
-#             except Text.DoesNotExist:
-#                 return Response(
-#                     {'message': 'Text no longer exists in the system.'},
-#                     status=status.HTTP_400_BAD_REQUEST
-#                 )
-            
-#             # Get the auth user
-#             birdie = Birdie.objects.get(user=request.auth.user)
-
-#             try:
-#                 # Try to delete the BirdieText
-#                 recording = BirdieText.objects.get(
-#                     text=text, birdie=birdie)
-#                 recording.delete()
-#                 return Response(None, status=status.HTTP_204_NO_CONTENT)
-            
-#             except BirdieText.DoesNotExist:
-#                 return Response(
-#                     {'message': 'Birdie already deleted this voice recording'}
-#                 )

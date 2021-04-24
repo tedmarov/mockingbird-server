@@ -3,42 +3,42 @@
         "model": "serverapi.voice",
         "pk": 1,
         "fields": {
-            "name": "Legend of Korra",
-            "create_date": "2021-03-14",
-            "recording": "Ipsum lorem",
-            "edited": false,
-            "privacy": false,
             "creator_id": "9ba45f09651c5b0c404f37a2d2572c026c146690",
             "category_id": 1,
-            "text_id": 1
+            "text_id": 1,
+            "name": "Legend of Korra",
+            "recording": "Ipsum lorem",
+            "create_date": "2021-03-14",
+            "edited": false,
+            "privacy": false
         }
     },
     {
         "model": "serverapi.voice",
         "pk": 2,
         "fields": {
-            "name": "When Harry Met Sally",
-            "create_date": "2021-01-01",
-            "recording": "Ipsum lorem",
-            "edited": false,
-            "privacy": true,
             "creator_id": "9ba45f09651c5b0c404f37a2d2572c026c146688",
             "category_id": 3,
-            "text_id": 2
+            "text_id": 2,
+            "name": "When Harry Met Sally",
+            "recording": "Ipsum lorem",
+            "create_date": "2021-01-01",
+            "edited": false,
+            "privacy": true
         }
     },
     {
         "model": "serverapi.voice",
         "pk": 3,
         "fields": {
-            "name": "Barbershop Song",
-            "create_date": "2021-02-03",
-            "recording": "Ipsum lorem",
-            "edited": false,
-            "privacy": true,
             "creator_id": "9ba45f09651c5b0c404f37a2d2572c026c146690",
             "category_id": 2,
-            "text_id": 3
+            "text_id": 3,
+            "name": "Barbershop Song",
+            "recording": "Ipsum lorem",
+            "create_date": "2021-02-03",
+            "edited": false,
+            "privacy": true
         }
     }
 ]
