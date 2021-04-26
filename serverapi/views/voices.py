@@ -91,7 +91,7 @@ class Voices(ViewSet):
         "GET all Voices"
         voices = Voice.objects.all()
 
-        serializer = VoiceListSerializer(voices, many=True, context={'request': request})
+        serializer = VoiceSerializer(voices, many=True, context={'request': request})
         return Response(serializer.data)
 
 class VoiceSerializer(serializers.ModelSerializer):
@@ -99,13 +99,5 @@ class VoiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Voice
-        fields = ('id', 'name', 'create_date', 'recording', 'edited', 'privacy', 'creator', 'category', 'text')
-        depth = 2
-
-class VoiceListSerializer(serializers.ModelSerializer):
-    """JSON serializer for voices"""
-
-    class Meta:
-        model = Voice
-        fields = ('id', 'name', 'create_date', 'recording', 'edited', 'privacy', 'creator', 'category', 'text')
+        fields = ('id', 'name', 'create_date', 'recording', 'edited', 'privacy', 'creator_id', 'category_id', 'text_id')
         depth = 2

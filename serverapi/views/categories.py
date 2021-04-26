@@ -43,8 +43,8 @@ class Categories(ViewSet):
     def update(self, request, pk=None):
 
         category = Category.objects.get(pk=pk)
-        
         category.label = request.data['label']
+
         category.save()
 
         return Response({}, status=status.HTTP_204_NO_CONTENT)
@@ -67,4 +67,4 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('id', 'label')
+        fields = ['id', 'label']
