@@ -22,14 +22,22 @@ class Voices(ViewSet):
             Response -- JSON serialized voice instance
         """
 
+        # Create a new Python instance of the Voice class
+        # and set its properties from what was sent in the
+        # body of the request from the client.
         voice = Voice()
         voice.name = request.data["name"]
         voice.create_date = request.data["create_date"]
         voice.recording = request.data["recording"]
         voice.edited = request.data["edited"]
         voice.privacy = request.data["privacy"]
+        # Use Django ORM to get the token of the currently logged in user
+        # whenever a new voice object is created as the creator.
         token = Token.objects.get(user=request.auth.user)
         voice.creator_id = token
+        # Use the Django ORM to get the record from the database
+        # whose `id` is what the client passed as the
+        # `category`/`text` in the body of the request.
         category = Category.objects.get(pk=request.data["category_id"])
         voice.category = category
         text = Text.objects.get(pk=request.data["text_id"])
@@ -47,6 +55,11 @@ class Voices(ViewSet):
         """ get a single Voice """
 
         try:
+            # `pk` is a parameter to this function, and
+            # Django parses it from the URL route parameter
+            #   http://localhost:8000/voices/2
+            #
+            # The `2` at the end of the route becomes `pk`
             voice = Voice.objects.get(pk=pk)
             serializer = VoiceSerializer(voice, context={'request': request})
             return Response(serializer.data)
@@ -56,7 +69,9 @@ class Voices(ViewSet):
     def update(self, request, pk=None):
         """ update/ edit an existing Voice """
 
-
+        # Do mostly the same thing as POST, but instead of
+        # creating a new instance of Voice, get the game record
+        # from the database whose primary key is `pk`
         voice = Voice.objects.get(pk=pk)
         voice.name = request.data["name"]
         voice.create_date = request.data["create_date"]
@@ -91,6 +106,9 @@ class Voices(ViewSet):
         "GET all Voices"
         voices = Voice.objects.all()
 
+        # Note the addtional `many=True` argument to the
+        # serializer. It's needed when you are serializing
+        # a list of objects instead of a single object.
         serializer = VoiceSerializer(voices, many=True, context={'request': request})
         return Response(serializer.data)
 
