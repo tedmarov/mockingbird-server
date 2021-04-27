@@ -3,40 +3,40 @@
         "model": "serverapi.text",
         "pk": 1,
         "fields": {
-            "text_title": "Enter the Void",
+            "title": "Enter the Void",
             "submitter": "9ba45f09651c5b0c404f37a2d2572c026c146690",
-            "text_body": "Let go your earthly tether. Enter the void. Empty, and become wind.",
-            "text_source": "https://avatar.fandom.com/wiki/Enter_the_Void"
+            "body": "Let go your earthly tether. Enter the void. Empty, and become wind.",
+            "source": "https://avatar.fandom.com/wiki/Enter_the_Void"
         }
     },
     {
         "model": "serverapi.text",
         "pk": 2,
         "fields": {
-            "text_title": "When Harry Met Sally",
+            "title": "When Harry Met Sally",
             "submitter": "9ba45f09651c5b0c404f37a2d2572c026c146688",
-            "text_body": "Wait a second, wait a, wait a second. What are you doing for New Years? Are you going to the Tyler's party? 'Cos I don't have a date, and if you don't have a date, we always said that if neither one of us had a date, we could be together for New Years",
-            "text_source": "https://www.moviequotedb.com/movies/when-harry-met-sally/quote_26050.html"
+            "body": "Wait a second, wait a, wait a second. What are you doing for New Years? Are you going to the Tyler's party? 'Cos I don't have a date, and if you don't have a date, we always said that if neither one of us had a date, we could be together for New Years",
+            "source": "https://www.moviequotedb.com/movies/when-harry-met-sally/quote_26050.html"
         }
     },
     {
         "model": "serverapi.text",
         "pk": 3,
         "fields": {
-            "text_title": "Lollipop",
+            "title": "Lollipop",
             "submitter": "9ba45f09651c5b0c404f37a2d2572c026c146688",
-            "text_body": "Lollipop lollipop. Oh lolli lolli lolli, lollipop.",
-            "text_source": "https://www.azlyrics.com/lyrics/chordettes/lollipop.html"
+            "body": "Lollipop lollipop. Oh lolli lolli lolli, lollipop.",
+            "source": "https://www.azlyrics.com/lyrics/chordettes/lollipop.html"
         }
     },
         {
         "model": "serverapi.text",
         "pk": 4,
         "fields": {
-            "text_title": "Original Text",
+            "title": "Original Text",
             "submitter": "9ba45f09651c5b0c404f37a2d2572c026c146688",
-            "text_body": "Make it hot!",
-            "text_source": "This is original content."
+            "body": "Make it hot!",
+            "source": "This is original content."
     }
 }
 ]
