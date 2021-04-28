@@ -70,7 +70,7 @@ class Voices(ViewSet):
         """ update/ edit an existing Voice """
 
         # Do mostly the same thing as POST, but instead of
-        # creating a new instance of Voice, get the game record
+        # creating a new instance of Voice, get the voice record
         # from the database whose primary key is `pk`
         voice = Voice.objects.get(pk=pk)
         voice.name = request.data["name"]
